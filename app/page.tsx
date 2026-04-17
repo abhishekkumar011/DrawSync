@@ -1,10 +1,10 @@
-import { Button } from "@/components/ui/button";
+import { UserButton } from "@clerk/nextjs";
 
 export default function Home() {
   return (
     <div>
       <p className="text-2xl font-bold">Welcome to Draw Sync</p>
-      <Button className="cursor-pointer">Click Me</Button>
+      <UserButton />
     </div>
   );
 }
