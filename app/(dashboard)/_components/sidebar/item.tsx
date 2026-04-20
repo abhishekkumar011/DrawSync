@@ -33,6 +33,7 @@ export const Item = ({ id, name, imageUrl }: ItemProps) => {
       >
         <Image
           fill
+          sizes="48px"
           alt={name}
           src={imageUrl}
           onClick={onClick}
