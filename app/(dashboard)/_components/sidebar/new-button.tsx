@@ -7,8 +7,8 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Plus } from "lucide-react";
-import { CreateOrganization } from "@clerk/nextjs";
 import { Hint } from "@/components/hint";
+import { CreateOrganization } from "@clerk/nextjs";
 
 export const NewButton = () => {
   return (
@@ -27,11 +27,12 @@ export const NewButton = () => {
           </Hint>
         </div>
       </DialogTrigger>
-      <DialogContent className="p-0 bg-transparent border-none max-w-[430px]">
+
+      <DialogContent className="p-0 bg-transparent border-none w-[calc(100vw-2rem)] max-w-[430px]">
         <div className="hidden">
           <DialogTitle></DialogTitle>
         </div>
-        <CreateOrganization />
+        <CreateOrganization/>
       </DialogContent>
     </Dialog>
   );
