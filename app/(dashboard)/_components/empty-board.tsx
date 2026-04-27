@@ -1,7 +1,24 @@
-import { Button } from "@/components/ui/button";
+"use client";
+
 import Image from "next/image";
+import { api } from "@/convex/_generated/api";
+import { useOrganization } from "@clerk/nextjs";
+import { Button } from "@/components/ui/button";
+import { useApiMutation } from "@/hooks/use-api-mutation";
 
 export const EmptyBoards = () => {
+  const { organization } = useOrganization();
+  const { mutate, pending } = useApiMutation(api.board.create);
+
+  const onClick = () => {
+    if (!organization) return;
+
+    mutate({
+      orgId: organization.id,
+      title: "Random",
+    });
+  };
+
   return (
     <div className="h-full flex flex-col items-center justify-center">
       <Image src={"/note.png"} height={350} width={350} alt="Empty" />
@@ -10,7 +27,14 @@ export const EmptyBoards = () => {
         Start by creating a board for your organization
       </p>
       <div className="mt-6">
-        <Button className="cursor-pointer" size="lg">Create board</Button>
+        <Button
+          disabled={pending}
+          onClick={onClick}
+          className="cursor-pointer"
+          size="lg"
+        >
+          Create board
+        </Button>
       </div>
     </div>
   );
