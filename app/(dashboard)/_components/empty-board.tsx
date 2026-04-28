@@ -1,5 +1,6 @@
 "use client";
 
+import { toast } from "sonner";
 import Image from "next/image";
 import { api } from "@/convex/_generated/api";
 import { useOrganization } from "@clerk/nextjs";
@@ -16,7 +17,11 @@ export const EmptyBoards = () => {
     mutate({
       orgId: organization.id,
       title: "Random",
-    });
+    })
+      .then((id) => {
+        toast.success("Board created");
+      })
+      .catch(() => toast.error("Failed to create board"));
   };
 
   return (
