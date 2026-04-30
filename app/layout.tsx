@@ -2,6 +2,7 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Toaster } from "@/components/ui/sonner";
+import { ModalProvider } from "@/providers/modal-provider";
 import { Geist, Geist_Mono, Poppins } from "next/font/google";
 import { ConvexClientProvider } from "@/providers/convex-client-provider";
 
@@ -45,9 +46,10 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <ConvexClientProvider>
-          <Toaster/>
+          <Toaster />
+          <ModalProvider />
           {children}
-          </ConvexClientProvider>
+        </ConvexClientProvider>
       </body>
     </html>
   );
