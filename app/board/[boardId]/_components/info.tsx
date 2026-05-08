@@ -56,7 +56,7 @@ export const Info = ({ boardId }: InfoProps) => {
       <Actions id={data._id} title={data.title} side="bottom" sideOffset={10}>
         <div>
           <Hint label="Main menu" side="bottom" sideOffset={10}>
-            <Button size="icon" variant="board">
+            <Button size="icon" variant="board" className="cursor-pointer">
               <Menu />
             </Button>
           </Hint>
