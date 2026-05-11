@@ -13,4 +13,7 @@ export const {
   useOthers,
   useMutation,
   useStorage,
+  useHistory,
+  useCanUndo,
+  useCanRedo,
 } = createRoomContext(client);
