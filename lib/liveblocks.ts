@@ -2,6 +2,7 @@ import { createClient } from "@liveblocks/client";
 import { createRoomContext } from "@liveblocks/react";
 
 const client = createClient({
+  throttle: 16,
   authEndpoint: "/api/liveblocks-auth",
 });
 
@@ -11,9 +12,11 @@ export const {
   useSelf,
   useMyPresence,
   useOthers,
+  useOther,
   useMutation,
   useStorage,
   useHistory,
   useCanUndo,
   useCanRedo,
+  useOthersConnectionIds,
 } = createRoomContext(client);
