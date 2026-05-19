@@ -121,6 +121,14 @@ export const Canvas = ({ boardId }: CanvasProps) => {
     setCanvasState({ mode: CanvasMode.Translating, current: point });
   }, [canvasState]);
 
+  const unselectLayers = useMutation((
+    { self, setMyPresence }
+  ) => {
+    if (self.presence.selection.length > 0) {
+      setMyPresence({ selection: [] }, { addToHistory: true });
+    }
+  }, []);
+
   const resizeSelectedLayer = useMutation((
     { storage, self },
     point: Point,
@@ -185,19 +193,40 @@ export const Canvas = ({ boardId }: CanvasProps) => {
     setMyPresence({ cursor: null });
   }, []);
 
+  const onPointerDown = useCallback((
+    e: React.PointerEvent
+  ) => {
+    const point = pointerEventToCanvasPoint(e, camera);
+
+    if (canvasState.mode === CanvasMode.Inserting) {
+      return;
+    }
+
+    setCanvasState({ mode: CanvasMode.Pressing, origin: point })
+  }, [camera, canvasState.mode, setCanvasState])
+
   const onPointerUp = useMutation(
     ({ }, e) => {
       const point = pointerEventToCanvasPoint(e, camera);
 
-      if (canvasState.mode === CanvasMode.Inserting) {
+      if (canvasState.mode === CanvasMode.None ||
+        canvasState.mode === CanvasMode.Pressing
+      ) {
+        unselectLayers();
+        setCanvasState({
+          mode: CanvasMode.None
+        })
+      } else if (canvasState.mode === CanvasMode.Inserting) {
         insertLayer(canvasState.layerType, point);
       } else {
-        setCanvasState({ mode: CanvasMode.None });
+        setCanvasState({
+          mode: CanvasMode.None
+        });
       }
 
       history.resume();
     },
-    [camera, canvasState, history, insertLayer],
+    [camera, canvasState, history, insertLayer, unselectLayers],
   );
 
   const selections = useOthersMapped((other) => other.presence.selection);
@@ -262,6 +291,7 @@ export const Canvas = ({ boardId }: CanvasProps) => {
         onWheel={onWheel}
         onPointerMove={onPointerMove}
         onPointerLeave={onPointerLeave}
+        onPointerDown={onPointerDown}
         onPointerUp={onPointerUp}
       >
         <g
