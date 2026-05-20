@@ -25,6 +25,7 @@ import { Participants } from "./participants";
 import { LayerPreview } from "./layer-preview";
 import { SelectionBox } from "./selection-box";
 import { LiveObject } from "@liveblocks/client";
+import { SelectionTools } from "./selection-tools";
 import { CursorsPresence } from "./cursors-presence";
 import { useCallback, useMemo, useState } from "react";
 import { connectionIdToColor, pointerEventToCanvasPoint, resizeBounds } from "@/lib/utils";
@@ -285,6 +286,10 @@ export const Canvas = ({ boardId }: CanvasProps) => {
         canUndo={canUndo}
         undo={history.undo}
         redo={history.redo}
+      />
+      <SelectionTools
+        camera={camera}
+        setLastUsedColor={setLastUsedColor}
       />
       <svg
         className="h-screen w-screen"
