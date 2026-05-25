@@ -29,7 +29,7 @@ import { SelectionBox } from "./selection-box";
 import { LiveObject } from "@liveblocks/client";
 import { SelectionTools } from "./selection-tools";
 import { CursorsPresence } from "./cursors-presence";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   colorToCss,
   connectionIdToColor,
@@ -411,6 +411,24 @@ export const Canvas = ({ boardId }: CanvasProps) => {
 
     return layerIdsToColorSelection;
   }, [selections]);
+
+  useEffect(() => {
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === "z" && (e.ctrlKey || e.metaKey)) {
+        if (e.shiftKey) {
+          history.redo();
+        } else {
+          history.undo();
+        }
+      }
+    }
+
+    document.addEventListener("keydown", onKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [history]);
 
   return (
     <main className="h-full w-full relative bg-neutral-100 touch-none">
