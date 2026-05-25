@@ -38,6 +38,7 @@ import {
   pointerEventToCanvasPoint,
   resizeBounds
 } from "@/lib/utils";
+import { useDisableScrollBounce } from "@/hooks/use-disable-scroll-bounce";
 
 const MAX_LAYERS = 100;
 
@@ -62,6 +63,7 @@ export const Canvas = ({ boardId }: CanvasProps) => {
     b: 0,
   });
 
+  useDisableScrollBounce();
   const history = useHistory();
   const canUndo = useCanUndo();
   const canRedo = useCanRedo();
